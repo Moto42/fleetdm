@@ -25,7 +25,7 @@ services:
       - redis_data:/data
 
   fleet:
-    build: ./
+    image: fleetdm/fleet:v4.55.1
     environment:
       FLEET_MYSQL_ADDRESS: mysql:3306
       FLEET_MYSQL_USERNAME: fleet
@@ -36,6 +36,7 @@ services:
       FLEET_SERVER_KEY: /run/secrets/fleet_key
     ports:
       - "8080:8080"
+    command: sh -c "fleet serve || fleet prepare db && fleet serve;"
     depends_on:
       mysql:
         condition: service_started
