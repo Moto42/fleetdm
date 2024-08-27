@@ -42,7 +42,8 @@ services:
       FLEET_SERVER_KEY: /certs/key.pem
     ports:
       - "8080:8080"
-
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
     volumes:
       - certs:/certs:ro
     command: sh -c "fleet serve || fleet prepare db && fleet serve;"
