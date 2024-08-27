@@ -1,6 +1,12 @@
 version: "3.8"
 
 services:
+  certmaker:
+    image: stakater/ssl-certs-generator
+    volumes:
+      - ./certmaker:/scripts:ro
+      - certs:/certsvolume:rw
+    command: /bin/sh -c "/scripts/checkforcerts.sh"
   mysql:
     image: mysql:8.0
     environment:
@@ -32,26 +38,23 @@ services:
       FLEET_MYSQL_PASSWORD: fleet
       FLEET_MYSQL_DATABASE: fleet
       FLEET_REDIS_ADDRESS: redis:6379
-      FLEET_SERVER_CERT: /run/secrets/fleet_cert
-      FLEET_SERVER_KEY: /run/secrets/fleet_key
+      FLEET_SERVER_CERT: /certs/cert.pem
+      FLEET_SERVER_KEY: /certs/key.pem
     ports:
       - "8080:8080"
+
+    volumes:
+      - certs:/certs:ro
     command: sh -c "fleet serve || fleet prepare db && fleet serve;"
     depends_on:
+      certmaker:
+        condition: service_completed_successfully
       mysql:
         condition: service_started
       redis:
         condition: service_started
-    secrets:
-      - fleet_cert
-      - fleet_key
-
-secrets:
-  fleet_cert:
-    file: ./certs/cert.pem
-  fleet_key:
-    file: ./certs/key.pem
 
 volumes:
   mysql_data:
   redis_data:
+  certs:
