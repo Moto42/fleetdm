@@ -9,7 +9,6 @@ services:
     stdin_open: true # docker run -i
     tty: true # docker run -t
     command: /bin/sh /scripts/checkforcerts.sh
-    # command: sh -c "/bin/sh /scripts/checkforcerts.sh; while true; do sleep 86400; done;"
 
   mysql:
     image: mysql:8.0
