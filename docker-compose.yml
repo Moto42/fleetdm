@@ -7,53 +7,53 @@ services:
       - ./certmaker:/scripts
       - certs:/certsvolume
     command: /bin/sh -c "/scripts/checkforcerts.sh"
-  mysql:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: fleet
-      MYSQL_USER: fleet
-      MYSQL_PASSWORD: fleet
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 5s
-      retries: 20
+  # mysql:
+  #   image: mysql:8.0
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: password
+  #     MYSQL_DATABASE: fleet
+  #     MYSQL_USER: fleet
+  #     MYSQL_PASSWORD: fleet
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - mysql_data:/var/lib/mysql
+  #   healthcheck:
+  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+  #     timeout: 5s
+  #     retries: 20
 
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
+  # redis:
+  #   image: redis:latest
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
 
-  fleet:
-    image: fleetdm/fleet:v4.55.1
-    environment:
-      FLEET_MYSQL_ADDRESS: mysql:3306
-      FLEET_MYSQL_USERNAME: fleet
-      FLEET_MYSQL_PASSWORD: fleet
-      FLEET_MYSQL_DATABASE: fleet
-      FLEET_REDIS_ADDRESS: redis:6379
-      FLEET_SERVER_CERT: /certs/cert.pem
-      FLEET_SERVER_KEY: /certs/key.pem
-    ports:
-      - "8080:8080"
-    stdin_open: true # docker run -i
-    tty: true # docker run -t
-    volumes:
-      - certs:/certs
-    command: sh -c "fleet serve || fleet prepare db && fleet serve;"
-    depends_on:
-      certmaker:
-        condition: service_completed_successfully
-      mysql:
-        condition: service_started
-      redis:
-        condition: service_started
+  # fleet:
+  #   image: fleetdm/fleet:v4.55.1
+  #   environment:
+  #     FLEET_MYSQL_ADDRESS: mysql:3306
+  #     FLEET_MYSQL_USERNAME: fleet
+  #     FLEET_MYSQL_PASSWORD: fleet
+  #     FLEET_MYSQL_DATABASE: fleet
+  #     FLEET_REDIS_ADDRESS: redis:6379
+  #     FLEET_SERVER_CERT: /certs/cert.pem
+  #     FLEET_SERVER_KEY: /certs/key.pem
+  #   ports:
+  #     - "8080:8080"
+  #   stdin_open: true # docker run -i
+  #   tty: true # docker run -t
+  #   volumes:
+  #     - certs:/certs
+  #   command: sh -c "fleet serve || fleet prepare db && fleet serve;"
+  #   depends_on:
+  #     certmaker:
+  #       condition: service_completed_successfully
+  #     mysql:
+  #       condition: service_started
+  #     redis:
+  #       condition: service_started
 
 volumes:
   mysql_data:
