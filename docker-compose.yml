@@ -6,8 +6,6 @@ services:
     volumes:
       - ./certmaker:/scripts
       - certs:/certsvolume
-    stdin_open: true # docker run -i
-    tty: true # docker run -t
     command: /bin/sh /scripts/checkforcerts.sh
 
   mysql:
