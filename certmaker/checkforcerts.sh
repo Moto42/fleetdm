@@ -1,7 +1,7 @@
 #!/bin/sh
 
 bothfilesexist(){
-  if ls /certsvolume/cert.pem && ls /certsvolume/key.pem;
+  if ls /certsvolume/cert.pem >/dev/null && ls /certsvolume/key.pem>/dev/null;
   then
     return 0
   else
