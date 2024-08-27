@@ -23,9 +23,9 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s
       retries: 20
-      depends_on:
-        certmaker:
-          condition: service_completed_successfully
+    depends_on:
+      certmaker:
+        condition: service_completed_successfully
 
   redis:
     image: redis:latest
