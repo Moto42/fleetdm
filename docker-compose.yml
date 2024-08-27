@@ -5,7 +5,7 @@ services:
     image: stakater/ssl-certs-generator
     volumes:
       - ./certmaker:/scripts:ro
-      - certs:/certs:rw
+      - certs:/certsvolume:rw
     command: /bin/sh -c "/scripts/checkforcerts.sh"
   mysql:
     image: mysql:8.0

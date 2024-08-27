@@ -1,7 +1,7 @@
 #!/bin/sh
 
 bothfilesexist(){
-  if ls /certs/cert.pem && ls /certs/key.pem;
+  if ls /certsvolume/cert.pem && ls /certsvolume/key.pem;
   then
     return 0
   else
@@ -15,5 +15,7 @@ if bothfilesexist; then
 else
   echo "thanger"
   rm /certs/*
-  /usr/local/bin/generate-certs && exit 0 || exit 1
+  /usr/local/bin/generate-certs || exit 1
+  mv /certs/cert.pem /certsvolume/cert.pem
+  mv /certs/key.pem /certsvolume/key.pem
 fi
