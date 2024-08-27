@@ -6,7 +6,8 @@ services:
     volumes:
       - ./certmaker:/scripts
       - certs:/certsvolume
-    command: /bin/sh -c "/scripts/checkforcerts.sh"
+    command: /bin/sh /scripts/checkforcerts.sh
+
   mysql:
     image: mysql:8.0
     environment:
@@ -22,6 +23,9 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s
       retries: 20
+      depends_on:
+        certmaker:
+          condition: service_completed_successfully
 
   redis:
     image: redis:latest
@@ -29,6 +33,9 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    depends_on:
+      certmaker:
+        condition: service_completed_successfully
 
   fleet:
     image: fleetdm/fleet:v4.55.1

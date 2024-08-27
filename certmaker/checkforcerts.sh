@@ -9,6 +9,8 @@ bothfilesexist(){
   fi
 }
 
+cd /certs;
+
 if bothfilesexist; then
   printf "################\nAll certs exist\n################"
   exit 0
