@@ -15,8 +15,8 @@ services:
       MYSQL_DATABASE: fleet
       MYSQL_USER: fleet
       MYSQL_PASSWORD: fleet
-    ports:
-      - "3306:3306"
+    # ports:
+    #   - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -29,8 +29,8 @@ services:
 
   redis:
     image: redis:latest
-    ports:
-      - "6379:6379"
+    # ports:
+    #   - "6379:6379"
     volumes:
       - redis_data:/data
     depends_on:
