@@ -1,6 +1,12 @@
 version: "3.8"
 
 services:
+  certmaker:
+    image: stakater/ssl-certs-generator
+    volumes:
+      - ./certmaker:/scripts:ro
+      - certs:/certs:rw
+    command: /bin/sh -c "/scripts/checkforcerts.sh"
   mysql:
     image: mysql:8.0
     environment:
@@ -41,6 +47,8 @@ services:
       - certs:/certs:ro
     command: sh -c "fleet serve || fleet prepare db && fleet serve;"
     depends_on:
+      certmaker:
+        condition: service_completed_successfully
       mysql:
         condition: service_started
       redis:
