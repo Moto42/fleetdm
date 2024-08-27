@@ -14,8 +14,8 @@ if bothfilesexist; then
   exit 0
 else
   printf "##########\nSome or all certs not found\n(re)generating certs\n##########"
-  rm /certs/*
-  /usr/local/bin/generate-certs || exit 1
-  mv /certs/cert.pem /certsvolume/cert.pem
-  mv /certs/key.pem /certsvolume/key.pem
+  rm /certs/* >/dev/null
+  /usr/local/bin/generate-certs >/dev/null || exit 1
+  mv /certs/cert.pem /certsvolume/cert.pem >/dev/null
+  mv /certs/key.pem /certsvolume/key.pem >/dev/null
 fi
