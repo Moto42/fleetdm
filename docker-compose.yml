@@ -4,8 +4,8 @@ services:
   certmaker:
     image: stakater/ssl-certs-generator
     volumes:
-      - ./certmaker:/scripts:ro
-      - certs:/certsvolume:rw
+      - ./certmaker:/scripts
+      - certs:/certsvolume
     command: /bin/sh -c "/scripts/checkforcerts.sh"
   mysql:
     image: mysql:8.0
@@ -45,7 +45,7 @@ services:
     stdin_open: true # docker run -i
     tty: true # docker run -t
     volumes:
-      - certs:/certs:ro
+      - certs:/certs
     command: sh -c "fleet serve || fleet prepare db && fleet serve;"
     depends_on:
       certmaker:
