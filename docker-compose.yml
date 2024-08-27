@@ -9,7 +9,7 @@ services:
     stdin_open: true # docker run -i
     tty: true # docker run -t
     # command: /bin/sh -c "/scripts/checkforcerts.sh"
-    command: sleep infinite
+    command: sleep infinity
   # mysql:
   #   image: mysql:8.0
   #   environment:
