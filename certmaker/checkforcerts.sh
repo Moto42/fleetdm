@@ -10,10 +10,10 @@ bothfilesexist(){
 }
 
 if bothfilesexist; then
-  echo "thinger"
+  echo "################\nAll certs exist\n################"
   exit 0
 else
-  echo "thanger"
+  echo "##########\nSome or all certs not found\n(re)generating certs\n##########"
   rm /certs/*
   /usr/local/bin/generate-certs || exit 1
   mv /certs/cert.pem /certsvolume/cert.pem
